@@ -6,6 +6,7 @@
 //
 
 import RIBs
+import UIKit
 
 protocol LoggedOutDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
@@ -31,9 +32,12 @@ final class LoggedOutBuilder: Builder<LoggedOutDependency>, LoggedOutBuildable {
 
     func build(withListener listener: LoggedOutListener) -> LoggedOutRouting {
         let component = LoggedOutComponent(dependency: dependency)
-        let viewController = LoggedOutViewController()
-        let interactor = LoggedOutInteractor(presenter: viewController)
+        
+        let sb = UIStoryboard(name: "loggedOut", bundle: nil)
+        let vc = sb.instantiateViewController(identifier: "LoggedOutViewController") as! LoggedOutViewController
+        
+        let interactor = LoggedOutInteractor(presenter: vc)
         interactor.listener = listener
-        return LoggedOutRouter(interactor: interactor, viewController: viewController)
+        return LoggedOutRouter(interactor: interactor, viewController: vc)
     }
 }

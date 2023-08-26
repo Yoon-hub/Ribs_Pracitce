@@ -24,12 +24,8 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         view.backgroundColor = .white
     }
     
-    func present<T: UIViewController>(viewController: ViewControllable, from: T.Type) {
-        let sb = UIStoryboard(name: "loggedOut", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: String(describing: type(of: viewController.uiviewController))) as! T
-        vc.modalPresentationStyle = .fullScreen
-        
-        self.present(vc, animated: true, completion: nil)
+    func present(viewController: ViewControllable) {
+        present(viewController.uiviewController, animated: true, completion: nil)
     }
-    
+
 }

@@ -13,9 +13,8 @@ protocol RootInteractable: Interactable, LoggedOutListener {
     var listener: RootListener? { get set }
 }
 
-protocol RootViewControllable: ViewControllable { // view 계층 수정하는 프로토콜인거같은데
-    // TODO: view 계층을 조졀?
-    func present<T: UIViewController>(viewController: ViewControllable, from: T.Type)
+protocol RootViewControllable: ViewControllable {
+    func present(viewController: ViewControllable)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
@@ -36,6 +35,6 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         super.didLoad()
         let loggedOut = self.loggedOutBuilder.build(withListener: self.interactor)
         self.attachChild(loggedOut)
-        self.viewController.present(viewController: loggedOut.viewControllable, from: LoggedOutViewController.self)
+        self.viewController.present(viewController: loggedOut.viewControllable)
     }
 }

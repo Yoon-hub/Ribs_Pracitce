@@ -42,4 +42,8 @@ final class LoggedOutInteractor: PresentableInteractor<LoggedOutPresentable>, Lo
         super.willResignActive()
         // TODO: Pause any business logic.
     }
+    
+    func logOut(id: String, pw: String) {
+        print("ID: \(id) PW: \(pw)")
+    }
 }

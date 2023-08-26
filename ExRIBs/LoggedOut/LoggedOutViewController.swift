@@ -10,14 +10,16 @@ import RxSwift
 import UIKit
 
 protocol LoggedOutPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
+    func logOut(id: String, pw: String)
 }
 
 final class LoggedOutViewController: UIViewController, LoggedOutPresentable, LoggedOutViewControllable {
 
     weak var listener: LoggedOutPresentableListener?
+    
+    @IBOutlet weak var idTF: UITextField!
+    @IBOutlet weak var pwTF: UITextField!
+    
     
     override func viewDidLoad() {
         view.backgroundColor = .white
@@ -25,7 +27,7 @@ final class LoggedOutViewController: UIViewController, LoggedOutPresentable, Log
     
     
     @IBAction func logOutTap(_ sender: UIButton) {
-        
+        listener?.logOut(id: idTF.text!, pw: pwTF.text!)
     }
     
 }
