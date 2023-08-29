@@ -1,15 +1,25 @@
 //
-//  RootInteractor.swift
-//  RibsEx
+//  Copyright (c) 2017. Uber Technologies
 //
-//  Created by VP on 2023/08/23.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import RIBs
 import RxSwift
 
 protocol RootRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    // TODO: 하위 트리를 관리하기 위한 메서드 선언
+    func routeToLoggedIn(p1: String, p2: String)
 }
 
 protocol RootPresentable: Presentable {
@@ -22,8 +32,9 @@ protocol RootListener: AnyObject {
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
-
+    
     weak var router: RootRouting?
+
     weak var listener: RootListener?
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
@@ -42,4 +53,10 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         super.willResignActive()
         // TODO: Pause any business logic.
     }
+    
+    // MARK: - LoggedOut
+    func didLogin(p1: String, p2: String) {
+        router?.routeToLoggedIn(p1: p1, p2: p2)
+    }
+    
 }

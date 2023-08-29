@@ -1,40 +1,74 @@
 //
-//  RootRouter.swift
-//  RibsEx
+//  Copyright (c) 2017. Uber Technologies
 //
-//  Created by VP on 2023/08/23.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import RIBs
 import UIKit
 
-protocol RootInteractable: Interactable, LoggedOutListener {
+protocol RootInteractable: Interactable, LoggedOutListener, LoggedInListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
 
 protocol RootViewControllable: ViewControllable {
     func present(viewController: ViewControllable)
+    func dismiss(viewController: ViewControllable)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
 
-    private let loggedOutBuilder: LoggedOutBuildable
+    init(interactor: RootInteractable,
+         viewController: RootViewControllable,
+         loggedOutBuilder: LoggedOutBuildable,
+         loggedInBuilder: LoggedInBuildable
+    ) {
+        self.loggedOutBuilder = loggedOutBuilder
+        self.loggedInBuilder = loggedInBuilder
     
-    // TODO: Constructor inject child builder protocols to allow building children.
-    init(interactor: RootInteractable, viewController: RootViewControllable, loggedtOutBuildable: LoggedOutBuildable) {
-        
-        self.loggedOutBuilder = loggedtOutBuildable
         super.init(interactor: interactor, viewController: viewController)
-        
         interactor.router = self
     }
-    
-    // attach 시켜주는 곳
+
     override func didLoad() {
         super.didLoad()
-        let loggedOut = self.loggedOutBuilder.build(withListener: self.interactor)
-        self.attachChild(loggedOut)
-        self.viewController.present(viewController: loggedOut.viewControllable)
+
+        let loggedOut = loggedOutBuilder.build(withListener: interactor)
+        self.loggedOut = loggedOut
+        attachChild(loggedOut)
+        viewController.present(viewController: loggedOut.viewControllable)
+    }
+
+    // MARK: - Private
+
+    private let loggedOutBuilder: LoggedOutBuildable
+    private let loggedInBuilder: LoggedInBuildable
+    
+
+    private var loggedOut: ViewableRouting?
+  //  private var loggedIn: ViewableRouting?
+    
+    func routeToLoggedIn(p1: String, p2: String) {
+        if let loggedOut = loggedOut {
+            detachChild(loggedOut)
+            viewController.dismiss(viewController: loggedOut.viewControllable)
+            self.loggedOut = nil
+        }
+        
+        let loggedIn = loggedInBuilder.build(withListener: interactor)
+        //self.loggedIn = loggedIn
+        attachChild(loggedIn)
+        
     }
 }

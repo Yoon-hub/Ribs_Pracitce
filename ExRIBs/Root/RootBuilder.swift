@@ -1,8 +1,17 @@
 //
-//  RootBuilder.swift
-//  RibsEx
+//  Copyright (c) 2017. Uber Technologies
 //
-//  Created by VP on 2023/08/23.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import RIBs
@@ -17,15 +26,11 @@ final class RootComponent: Component<RootDependency> {
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
-extension RootComponent: LoggedOutDependency {
-    
-}
-
 // MARK: - Builder
 
 protocol RootBuildable: Buildable {
     func build() -> LaunchRouting
-    }
+}
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
 
@@ -33,13 +38,16 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
         super.init(dependency: dependency)
     }
 
-    func build() -> LaunchRouting {  // root라 listenr가 필요없는 빌더
+    func build() -> LaunchRouting {
         let component = RootComponent(dependency: dependency)
         let viewController = RootViewController()
-        let loggedOutBuilder = LoggedOutBuilder(dependency: component)
-        
-        
         let interactor = RootInteractor(presenter: viewController)
-        return RootRouter(interactor: interactor, viewController: viewController, loggedtOutBuildable: loggedOutBuilder)
+
+        let loggedOutBuilder = LoggedOutBuilder(dependency: component)
+        let loggedInBuilder = LoggedInBuilder(dependency: component)
+        
+        return RootRouter(interactor: interactor,
+                          viewController: viewController,
+                          loggedOutBuilder: loggedOutBuilder, loggedInBuilder: loggedInBuilder)
     }
 }
