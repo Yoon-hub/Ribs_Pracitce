@@ -14,7 +14,7 @@ protocol TicTacToeRouting: ViewableRouting {
 
 protocol TicTacToePresentable: Presentable {
     var listener: TicTacToePresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    // UI를 처리하는 역할을 한다.
     
     func setCell(atRow row: Int, col: Int, withPlayerType playerType: PlayerType)
     func announce(winner: PlayerType?, withCompletionHandler handler: @escaping () -> ())

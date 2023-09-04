@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol LoggedInInteractable: Interactable, OffGameListener {
+protocol LoggedInInteractable: Interactable, OffGameListener, TicTacToeListener {
     var router: LoggedInRouting? { get set }
     var listener: LoggedInListener? { get set }
 }
@@ -25,9 +25,10 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
     // TODO: Constructor inject child builder protocols to allow building children.
     init(interactor: LoggedInInteractable,
          viewController: LoggedInViewControllable,
-         offGameBuilder: OffGameBuildable) {
+         offGameBuilder: OffGameBuildable, ticTacToeBuilder: TicTacToeBuildable) {
         self.viewController = viewController
         self.offGameBuilder = offGameBuilder
+        self.ticTacToeBuilder = ticTacToeBuilder
         super.init(interactor: interactor)
         interactor.router = self
     }
@@ -43,7 +44,8 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
     }
     
     func routeToTicTacToe() {
-      
+        detachCurrentChild()
+        attachTicTacToe()
     }
 
     func routeToOffGame() {
@@ -55,6 +57,9 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
     private let viewController: LoggedInViewControllable
     private let offGameBuilder: OffGameBuildable
     private var currentChild: ViewableRouting?
+    private let ticTacToeBuilder: TicTacToeBuildable
+
+    
 
     private func attachOffGame() {
         let offGame = offGameBuilder.build(withListener: interactor)
@@ -62,6 +67,14 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
         attachChild(offGame)
         viewController.present(viewController: offGame.viewControllable)
     }
+    
+    private func attachTicTacToe() {
+        let offGame = ticTacToeBuilder.build(withListener: interactor)
+        self.currentChild = offGame
+        attachChild(offGame)
+        viewController.present(viewController: offGame.viewControllable)
+    }
+
 
     private func detachCurrentChild() {
         if let currentChild = currentChild {

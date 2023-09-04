@@ -66,7 +66,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
             self.loggedOut = nil
         }
         
-        let loggedIn = loggedInBuilder.build(withListener: interactor)
+        let loggedIn = loggedInBuilder.build(withListener: interactor, player1: p1, player2: p2)
         //self.loggedIn = loggedIn
         attachChild(loggedIn)
         

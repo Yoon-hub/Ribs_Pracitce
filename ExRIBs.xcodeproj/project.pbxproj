@@ -39,6 +39,8 @@
 		673776972AA5B886003F16A4 /* LoggedInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673776942AA5B886003F16A4 /* LoggedInInteractor.swift */; };
 		673776992AA5BBAC003F16A4 /* LoggedInComponent+OffGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673776982AA5BBAC003F16A4 /* LoggedInComponent+OffGame.swift */; };
 		6737769C2AA5BE2E003F16A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6737769B2AA5BE2E003F16A4 /* SnapKit */; };
+		6737769F2AA5F163003F16A4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 6737769E2AA5F163003F16A4 /* RxCocoa */; };
+		673776A12AA5F391003F16A4 /* LoggedInComponent+TicTacToe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673776A02AA5F391003F16A4 /* LoggedInComponent+TicTacToe.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,7 @@
 		673776932AA5B886003F16A4 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
 		673776942AA5B886003F16A4 /* LoggedInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInInteractor.swift; sourceTree = "<group>"; };
 		673776982AA5BBAC003F16A4 /* LoggedInComponent+OffGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoggedInComponent+OffGame.swift"; sourceTree = "<group>"; };
+		673776A02AA5F391003F16A4 /* LoggedInComponent+TicTacToe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoggedInComponent+TicTacToe.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6737769F2AA5F163003F16A4 /* RxCocoa in Frameworks */,
 				673776372A96334E003F16A4 /* RIBs in Frameworks */,
 				6737769C2AA5BE2E003F16A4 /* SnapKit in Frameworks */,
 			);
@@ -141,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				673776982AA5BBAC003F16A4 /* LoggedInComponent+OffGame.swift */,
+				673776A02AA5F391003F16A4 /* LoggedInComponent+TicTacToe.swift */,
 				673776922AA5B886003F16A4 /* LoggedInRouter.swift */,
 				673776932AA5B886003F16A4 /* LoggedInBuilder.swift */,
 				673776942AA5B886003F16A4 /* LoggedInInteractor.swift */,
@@ -202,6 +207,7 @@
 			packageProductDependencies = (
 				673776362A96334E003F16A4 /* RIBs */,
 				6737769B2AA5BE2E003F16A4 /* SnapKit */,
+				6737769E2AA5F163003F16A4 /* RxCocoa */,
 			);
 			productName = ExRIBs;
 			productReference = 673775D62A83CA48003F16A4 /* ExRIBs.app */;
@@ -234,6 +240,7 @@
 			packageReferences = (
 				673776352A96334E003F16A4 /* XCRemoteSwiftPackageReference "RIBs" */,
 				6737769A2AA5BE2D003F16A4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				6737769D2AA5F163003F16A4 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 673775D72A83CA48003F16A4 /* Products */;
 			projectDirPath = "";
@@ -281,6 +288,7 @@
 				6737768F2AA5B529003F16A4 /* TicTacToeViewController.swift in Sources */,
 				673775DE2A83CA48003F16A4 /* ViewController.swift in Sources */,
 				6737768E2AA5B529003F16A4 /* TicTacToeRouter.swift in Sources */,
+				673776A12AA5F391003F16A4 /* LoggedInComponent+TicTacToe.swift in Sources */,
 				673776692A9E0250003F16A4 /* OffGameBuilder.swift in Sources */,
 				673776562A963549003F16A4 /* LoggedOutViewController.swift in Sources */,
 				6737766C2A9E0250003F16A4 /* OffGameRouter.swift in Sources */,
@@ -522,6 +530,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		6737769D2AA5F163003F16A4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -534,6 +550,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6737769A2AA5BE2D003F16A4 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		6737769E2AA5F163003F16A4 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6737769D2AA5F163003F16A4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
