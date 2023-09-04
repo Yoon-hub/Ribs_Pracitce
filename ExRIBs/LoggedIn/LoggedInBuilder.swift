@@ -1,25 +1,27 @@
 //
 //  LoggedInBuilder.swift
-//  RibsEx
+//  ExRIBs
 //
-//  Created by VP on 2023/08/23.
+//  Created by 최윤제 on 2023/09/04.
 //
 
 import RIBs
 
 protocol LoggedInDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
+    // TODO: Make sure to convert the variable into lower-camelcase.
+    var LoggedInViewController: LoggedInViewControllable { get }
+    // TODO: Declare the set of dependencies required by this RIB, but won't be
     // created by this RIB.
-    //var loggedInViewController: LoggedInViewControllable { get }
 }
 
-final class LoggedInComponent: Component<LoggedInDependency>, OffGameDependency {
+final class LoggedInComponent: Component<LoggedInDependency> {
+
+    // TODO: Make sure to convert the variable into lower-camelcase.
+    fileprivate var LoggedInViewController: LoggedInViewControllable {
+        return dependency.LoggedInViewController
+    }
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-    
-//    fileprivate var loggedInViewController: LoggedInViewControllable {
-//        return dependency.loggedInViewController
-//    }
 }
 
 // MARK: - Builder
@@ -36,11 +38,10 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
 
     func build(withListener listener: LoggedInListener) -> LoggedInRouting {
         let component = LoggedInComponent(dependency: dependency)
-        let viewController = LoggedInViewController()
-        let interactor = LoggedInInteractor(presenter: viewController)
-        let offGame = OffGameBuilder(dependency: component)
-        
+        let interactor = LoggedInInteractor()
         interactor.listener = listener
-        return LoggedInRouter(interactor: interactor, viewController: viewController, offGameBuilder: offGame)
+        let offGameBuilder = OffGameBuilder(dependency: component)
+        
+        return LoggedInRouter(interactor: interactor, viewController: component.LoggedInViewController, offGameBuilder: offGameBuilder)
     }
 }

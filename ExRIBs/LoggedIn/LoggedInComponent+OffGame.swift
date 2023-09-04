@@ -16,17 +16,15 @@
 
 import RIBs
 
-/// The dependencies needed from the parent scope of Root to provide for the LoggedOut scope.
-// TODO: Update RootDependency protocol to inherit this protocol.
-protocol RootDependencyLoggedOut: Dependency {
+/// The dependencies needed from the parent scope of LoggedIn to provide for the OffGame scope.
+// TODO: Update LoggedInDependency protocol to inherit this protocol.
+protocol LoggedInDependencyOffGame: Dependency {
 
-    // TODO: Declare dependencies needed from the parent scope of Root to provide dependencies
-    // for the LoggedOut scope.
+    // TODO: Declare dependencies needed from the parent scope of LoggedIn to provide dependencies
+    // for the OffGame scope.
 }
 
-extension RootComponent: LoggedOutDependency, LoggedInDependency {
+extension LoggedInComponent: OffGameDependency {
 
-    var LoggedInViewController: LoggedInViewControllable {
-        return rootViewController
-    }
+    // TODO: Implement properties to provide for OffGame scope.
 }
