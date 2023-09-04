@@ -31,6 +31,7 @@ final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewCon
     private var currentChild: ViewableRouting?
 
     override func didLoad() {
+        super.didLoad()
         attachOffGame()
     }
     
@@ -48,12 +49,12 @@ final class LoggedInRouter: ViewableRouter<LoggedInInteractable, LoggedInViewCon
     }
     
     func routeToTicTacToe() {
-        detachCurrentChild()
-        attachOffGame()
+
     }
 
     func routeToOffGame() {
-        
+        detachCurrentChild()
+        attachOffGame()
     }
     
     private func detachCurrentChild() {

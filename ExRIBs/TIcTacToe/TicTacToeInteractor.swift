@@ -1,35 +1,34 @@
 //
-//  LoggedOutInteractor.swift
-//  RibsEx
+//  TicTacToeInteractor.swift
+//  ExRIBs
 //
-//  Created by VP on 2023/08/23.
+//  Created by 최윤제 on 2023/09/04.
 //
 
 import RIBs
 import RxSwift
 
-protocol LoggedOutRouting: ViewableRouting {
+protocol TicTacToeRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
-protocol LoggedOutPresentable: Presentable {
-    var listener: LoggedOutPresentableListener? { get set }
+protocol TicTacToePresentable: Presentable {
+    var listener: TicTacToePresentableListener? { get set }
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol LoggedOutListener: AnyObject {
+protocol TicTacToeListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
-    func didLogin(p1: String, p2: String)
 }
 
-final class LoggedOutInteractor: PresentableInteractor<LoggedOutPresentable>, LoggedOutInteractable, LoggedOutPresentableListener {
+final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, TicTacToeInteractable, TicTacToePresentableListener {
 
-    weak var router: LoggedOutRouting?
-    weak var listener: LoggedOutListener?
+    weak var router: TicTacToeRouting?
+    weak var listener: TicTacToeListener?
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
-    override init(presenter: LoggedOutPresentable) {
+    override init(presenter: TicTacToePresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -42,9 +41,5 @@ final class LoggedOutInteractor: PresentableInteractor<LoggedOutPresentable>, Lo
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
-    }
-    
-    func logOut(id: String, pw: String) {
-        listener?.didLogin(p1: id, p2: pw)
     }
 }

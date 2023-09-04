@@ -25,6 +25,7 @@ protocol RootDependencyLoggedOut: Dependency {
 }
 
 extension RootComponent: LoggedOutDependency, LoggedInDependency {
+    
 
     // TODO: Implement properties to provide for LoggedOut scope.
 }
