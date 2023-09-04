@@ -20,7 +20,7 @@ class OffGameView: UIView {
     
     let startButton: UIButton = {
         let button = UIButton()
-        button.setTitle("시작시작", for: .normal)
+        button.setTitle("game start", for: .normal)
         button.backgroundColor = .black
         return button
     }()
@@ -31,7 +31,7 @@ class OffGameView: UIView {
         
         startButton.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.height.width.equalTo(50)
+            $0.height.width.equalTo(150)
         }
     }
     
