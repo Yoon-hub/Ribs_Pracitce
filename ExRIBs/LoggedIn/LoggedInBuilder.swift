@@ -12,6 +12,7 @@ protocol LoggedInDependency: Dependency {
     var LoggedInViewController: LoggedInViewControllable { get }
     // TODO: Declare the set of dependencies required by this RIB, but won't be
     // created by this RIB.
+
 }
 
 final class LoggedInComponent: Component<LoggedInDependency> {

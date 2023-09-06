@@ -8,11 +8,11 @@
 import RIBs
 import RxSwift
 
-protocol LoggedInRouting: Routing {
+protocol LoggedInRouting: Routing { // Router에 관리할 RIB 함수
     func cleanupViews()
     func routeToTicTacToe()
     func routeToOffGame()
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+
 }
 
 protocol LoggedInListener: AnyObject {
@@ -22,7 +22,7 @@ protocol LoggedInListener: AnyObject {
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
     
     func gameDidEnd(withWinner winner: PlayerType?) {
-        
+        router?.routeToOffGame()
     }
     
     weak var router: LoggedInRouting?
