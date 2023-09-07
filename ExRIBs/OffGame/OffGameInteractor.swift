@@ -14,7 +14,8 @@ protocol OffGameRouting: ViewableRouting {
 
 protocol OffGamePresentable: Presentable {
     var listener: OffGamePresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    // UI를 처리하는 역할 Interactor -> ViewContoller
+    func set(scroe: Score)
 }
 
 protocol OffGameListener: AnyObject {
@@ -26,10 +27,13 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
 
     weak var router: OffGameRouting?
     weak var listener: OffGameListener?
+    
+    private var scoreStream: ScoreStream
+    
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-    override init(presenter: OffGamePresentable) {
+     init(presenter: OffGamePresentable, socreStream: ScoreStream) {
+         self.scoreStream = socreStream
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -37,6 +41,7 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
+
     }
 
     override func willResignActive() {
@@ -46,5 +51,15 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
     
     func startGame() {
         listener?.didStartGame()
+    }
+    
+    func udpateScore() {
+        scoreStream.score
+            .subscribe(
+                onNext: { score in
+                    self.presenter.set(scroe: score)
+                }
+            )
+            .disposeOnDeactivate(interactor: self)
     }
 }

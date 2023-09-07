@@ -30,6 +30,10 @@ final class LoggedInComponent: Component<LoggedInDependency> {
         self.player2Name = player2Name
         super.init(dependency: dependency)
     }
+    
+    var mutableScoreStream: MutableScoreStream {
+        return shared { ScoreStreamImpl() }
+    }
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
@@ -48,7 +52,7 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
 
     func build(withListener listener: LoggedInListener, player1: String, player2: String) -> LoggedInRouting {
         let component = LoggedInComponent(dependency: dependency, player1Name: player1, player2Name: player2)
-        let interactor = LoggedInInteractor()
+        let interactor = LoggedInInteractor(mutableScoreStream: component.mutableScoreStream)
         interactor.listener = listener
         let offGameBuilder = OffGameBuilder(dependency: component)
         let ticTacToeBuilder = TicTacToeBuilder(dependency: component)
@@ -57,3 +61,4 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
         return LoggedInRouter(interactor: interactor, viewController: component.LoggedInViewController, offGameBuilder: offGameBuilder, ticTacToeBuilder: ticTacToeBuilder)
     }
 }
+    
