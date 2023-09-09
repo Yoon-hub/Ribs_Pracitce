@@ -41,7 +41,7 @@ final class LoggedInComponent: Component<LoggedInDependency> {
 // MARK: - Builder
 
 protocol LoggedInBuildable: Buildable {
-    func build(withListener listener: LoggedInListener, player1: String, player2: String) -> LoggedInRouting
+    func build(withListener listener: LoggedInListener, player1: String, player2: String) -> (router: LoggedInRouting, actionableItem: LoggedInActionableItem)
 }
 
 final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
@@ -50,15 +50,16 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: LoggedInListener, player1: String, player2: String) -> LoggedInRouting {
+    func build(withListener listener: LoggedInListener, player1: String, player2: String) -> (router: LoggedInRouting, actionableItem: LoggedInActionableItem) {
         let component = LoggedInComponent(dependency: dependency, player1Name: player1, player2Name: player2)
         let interactor = LoggedInInteractor(mutableScoreStream: component.mutableScoreStream)
         interactor.listener = listener
         let offGameBuilder = OffGameBuilder(dependency: component)
         let ticTacToeBuilder = TicTacToeBuilder(dependency: component)
         
+        let router = LoggedInRouter(interactor: interactor, viewController: component.LoggedInViewController, offGameBuilder: offGameBuilder, ticTacToeBuilder: ticTacToeBuilder)
         
-        return LoggedInRouter(interactor: interactor, viewController: component.LoggedInViewController, offGameBuilder: offGameBuilder, ticTacToeBuilder: ticTacToeBuilder)
+        return (router, interactor)
     }
 }
     

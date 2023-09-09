@@ -1,4 +1,3 @@
-//
 //  Copyright (c) 2017. Uber Technologies
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +25,7 @@ struct Score {
     }
 }
 
-protocol ScoreStream: AnyObject {
+protocol ScoreStream: class {
     var score: Observable<Score> { get }
 }
 
@@ -59,5 +58,5 @@ class ScoreStreamImpl: MutableScoreStream {
 
     // MARK: - Private
 
-    private let variable = BehaviorRelay<Score>(value: Score(player1Score: 0, player2Score: 0))
+    private let variable = BehaviorRelay<Score>(value: Score(player1Score: 0, player2Score: 0)) // 확실히 캡슐화를 한 놈이네
 }

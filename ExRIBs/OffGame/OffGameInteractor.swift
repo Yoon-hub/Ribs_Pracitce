@@ -41,7 +41,8 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
-
+        udpateScore()
+    
     }
 
     override func willResignActive() {

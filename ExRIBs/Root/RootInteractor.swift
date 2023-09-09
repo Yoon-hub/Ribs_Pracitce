@@ -16,10 +16,11 @@
 
 import RIBs
 import RxSwift
+import Foundation
 
 protocol RootRouting: ViewableRouting {
     // TODO: 하위 트리를 관리하기 위한 메서드 선언
-    func routeToLoggedIn(p1: String, p2: String)
+    func routeToLoggedIn(p1: String, p2: String) -> LoggedInActionableItem
 }
 
 protocol RootPresentable: Presentable {
@@ -31,7 +32,27 @@ protocol RootListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
+final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener, RootActionableItem, UrlHandler {
+    
+    private let loggedInActionableItemSubject = ReplaySubject<LoggedInActionableItem>.create(bufferSize: 1)
+    
+    // MARK: - RootActionableItem
+
+    func waitForLogin() -> Observable<(LoggedInActionableItem, ())> {
+        return loggedInActionableItemSubject
+            .map { (loggedInItem: LoggedInActionableItem) -> (LoggedInActionableItem, ()) in
+                (loggedInItem, ())
+            }
+    }
+    
+    func handle(_ url: URL) {
+        let launchGameWorkflow = LaunchGameWorkflow(url: url)
+        launchGameWorkflow
+            .subscribe(self)
+            .disposeOnDeactivate(interactor: self)
+    }
+
+    
     
     weak var router: RootRouting?
 
@@ -56,7 +77,19 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     
     // MARK: - LoggedOut
     func didLogin(p1: String, p2: String) {
-        router?.routeToLoggedIn(p1: p1, p2: p2)
+        let loggedInactionableItem = router?.routeToLoggedIn(p1: p1, p2: p2)
+        
+        if let loggedInactionableItem = loggedInactionableItem {
+            loggedInActionableItemSubject.onNext(loggedInactionableItem)
+        }
     }
+    
+    func urlHandler(url: URL) {
+        let lauchGameWorkflow = LaunchGameWorkflow(url: url)
+        lauchGameWorkflow
+            .subscribe(self)
+            .disposeOnDeactivate(interactor: self)
+    }
+    
     
 }

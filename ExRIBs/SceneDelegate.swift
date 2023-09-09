@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     private var launchRouter: LaunchRouting?
+    private var urlHandler: UrlHandler?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -23,11 +24,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             self.window = window
 
-            let launchRouter = RootBuilder(dependency: AppComponent()).build()
+            let result = RootBuilder(dependency: AppComponent()).build()
+            let launchRouter = result.launchRouter
             self.launchRouter = launchRouter
+            urlHandler = result.urlHandler
             launchRouter.launch(from: window)
         }
         
+    }
+    
+    // 딥링크 보내질 때 실
+    public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        urlHandler?.handle(url)
+        return true
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
